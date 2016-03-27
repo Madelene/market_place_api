@@ -18,7 +18,7 @@ describe Api::V1::UsersController do
     it { should respond_with 200 }
   end
 
-	describe "POST #create" do
+  describe "POST #create" do
 
     context "when is successfully created" do
       before(:each) do
@@ -38,11 +38,11 @@ describe Api::V1::UsersController do
       before(:each) do
         #notice I'm not including the email
         @invalid_user_attributes = { password: "12345678",
-                                     password_confirmation: "12345678" }
-        post :create, { user: @invalid_user_attributes }, format: :json
-      end
+         password_confirmation: "12345678" }
+         post :create, { user: @invalid_user_attributes }, format: :json
+       end
 
-      it "renders an error json" do
+       it "renders an error json" do
         user_response = JSON.parse(response.body, symbolize_names: true)
         expect(user_response).to have_key(:errors)
       end
@@ -62,10 +62,10 @@ describe Api::V1::UsersController do
       before(:each) do
         @user = FactoryGirl.create :user
         patch :update, { id: @user.id,
-                         user: { email: "newmail@example.com" } }, format: :json
-      end
+         user: { email: "newmail@example.com" } }, format: :json
+       end
 
-      it "renders the json representation for the updated user" do
+       it "renders the json representation for the updated user" do
         user_response = JSON.parse(response.body, symbolize_names: true)
         expect(user_response[:email]).to eql "newmail@example.com"
       end
@@ -77,10 +77,10 @@ describe Api::V1::UsersController do
       before(:each) do
         @user = FactoryGirl.create :user
         patch :update, { id: @user.id,
-                         user: { email: "bademail.com" } }, format: :json
-      end
+         user: { email: "bademail.com" } }, format: :json
+       end
 
-      it "renders an errors json" do
+       it "renders an errors json" do
         user_response = JSON.parse(response.body, symbolize_names: true)
         expect(user_response).to have_key(:errors)
       end
@@ -93,6 +93,17 @@ describe Api::V1::UsersController do
       it { should respond_with 422 }
     end
   end
+
+  describe "DELETE #destroy" do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      delete :destroy, { id: @user.id }, format: :json
+    end
+
+    it { should respond_with 204 }
+
+  end
+
 end
 
 
